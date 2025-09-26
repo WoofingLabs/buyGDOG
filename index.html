@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Woofswap - Swap</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-	<link rel="icon" type="image/png" href="https://www.woofswap.finance/image/tokens/GT.png">
+    <link rel="icon" type="image/png" href="https://www.woofswap.finance/image/tokens/GT.png">
     <style>
         :root {
             --primary-color: #ff9100;
@@ -225,28 +224,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .dog-section {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .dog-section img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 10px;
-        }
-        .dog-message {
-            font-size: 0.9em;
-            color: var(--secondary-color);
-            font-style: italic;
-        }
         @media (max-width: 480px) {
             body { padding: 10px; }
             .container { padding: 15px; }
             .header { font-size: 1.1em; }
             .modal-content { margin: 10% auto; }
             .percentage-buttons button { padding: 5px; }
-            .dog-section img { width: 50px; height: 50px; }
-            .dog-message { font-size: 0.8em; }
         }
     </style>
 </head>
@@ -296,9 +279,6 @@
             <div class="swap-note" id="swapNote">Amount automatically calculated by Woofswap</div>
         </div>
         <button class="swap-button" id="swapButton" onclick="swapTokens()">Swap</button>
-        <div class="dog-section">
-            <div class="dog-message" id="dogMessage">"Woof! Connect your wallet to start swapping, pup!"</div>
-        </div>
     </div>
     <div class="modal" id="tokenModal">
         <div class="modal-content">
@@ -352,37 +332,6 @@
         const defaultSlippage = 0.005;
         const maxPriceImpact = 0.5;
 
-        const dogMessages = {
-            connectStart: ["Woof woof! Sniffing out your wallet, hold tight, human!","Arf! Digging into GateLayer, let’s fetch that wallet!","Bow wow! Connecting to your stash, stay pawsitive!","Woof! I smell a wallet, let’s link it up quick!"],
-            connectSuccess: ["Arf arf! You’re in, pup! Time to chase some GTs!","Woof! Wallet’s hooked, ready to roll in GateLayer!","Yip yip! Connected, hooman! Let’s swap some treats!","Bow wow! Welcome aboard, let’s sniff out some swaps!"],
-            connectFail: ["Grrr... Wallet slipped away, try again, hooman!","Woof? No wallet scent detected, give it another go!","Arf arf! Something barked up, retry connecting, pup!","Ruff! Wallet’s hiding, let’s dig it out again!"],
-            tokenModal: ["Woof! Pick a token, let’s sniff out a juicy deal!","Arf! What treat shall we fetch today, hooman?","Bow wow! Tokens galore, choose your fave, pup!","Yip! Time to pick a GT to swap, let’s go!"],
-            selectToken: (symbol) => [`Arf arf! ${symbol}, huh? Smells like a tasty choice!`,`Woof! ${symbol} caught your eye? Good nose, pup!`,`Bow wow! ${symbol} it is! Let’s wag into action!`,`Yip yip! ${symbol} sounds pawsome, ready to swap?`],
-            switchTokens: ["Woof woof! Flipping tokens like a Shib pro, huh?","Arf! Swapping sides, let’s keep the tail wagging!","Bow wow! Token switcheroo, you’re a clever pup!","Ruff ruff! Mixing it up, let’s see what we fetch!"],
-            setPercentage: (percent) => [`Woof! ${percent}% in? You’re a bold Shib, hooman!`,`Arf arf! Going ${percent}%? Let’s dig into that swap!`,`Bow wow! ${percent}% of the stash? Pawsitively daring!`,`Yip! ${percent}%? You’re chasing big GTs today!`],
-            calcStart: ["Woof! Sniffing out the best price, hang tight!","Arf! Digging up some swap numbers, stay put, pup!","Bow wow! Crunching GTs, I’ll fetch the output soon!","Ruff! Calculating your treat, give me a sec, hooman!"],
-            calcSuccess: (amount, symbol) => [`Arf! Found ya ${amount} ${symbol}! Ready to swap, pup?`,`Woof woof! Snagged ${amount} ${symbol}, let’s roll!`,`Yip yip! Dug up ${amount} ${symbol}, happy tail wags!`,`Bow wow! ${amount} ${symbol} sniffed out, swap time!`],
-            calcFail: ["Grrr... No path for these GTs, try a new pair, pup!","Woof? Swap trail’s cold, pick another token, hooman!","Arf arf! Couldn’t fetch the output, let’s retry!","Ruff! Swap math barked up, give it another go!"],
-            swapStart: ["Woof woof! Swapping time, let’s fetch those tokens!","Arf! Launching the swap, hold onto your leash, pup!","Bow wow! Trading GTs, here we go, Shib style!","Yip! Swapping in GateLayer, let’s make it pawsome!"],
-            swapSuccess: ["Arf arf! Swap done, you’re a Woofswap champ, hooman!","Woof! Tokens fetched, tail-wagging success, pup!","Bow wow! Swapped like a pro, time to celebrate!","Yip yip! Swap complete, you’re the top dog now!"],
-            swapFail: ["Grrr... Swap didn’t work, let’s try again, pup!","Woof? Swap got lost, retry it, clever hooman!","Arf! Token chase failed, another go, Shib friend?","Ruff ruff! Swap slipped, let’s dig it up again!"],
-            swapNoToken: ["Woof? Missing a token, pup! Pick one first!","Arf arf! No treats to swap, choose a pair, hooman!","Bow wow! Where’s the token? Let’s sniff one out!","Yip! Can’t swap air, pick a token, Shib pal!"],
-            swapNoAmount: ["Arf! No amount? How am I supposed to swap air?!","Woof woof! Gimme a number, pup, or we’re stuck!","Bow wow! Empty swap? Fill it up, hooman!","Ruff! Amount’s missing, let’s fetch some digits!"],
-            highPriceImpact: ["Woof woof! That swap has a huge price impact, pup! Try a smaller amount!","Arf! Too many GTs at once—price impact’s too high, hooman!","Bow wow! Swap’s too big for the pool, let’s scale it down!","Ruff! Price impact’s barking mad—reduce the amount, Shib friend!"],
-            insufficientLiquidity: ["Grrr... Not enough GTs in the pool for this swap, pup!","Woof? Pool’s too shallow—try a smaller swap, hooman!","Arf arf! Liquidity’s low, can’t fetch that many GTs!","Ruff! Pool’s running dry—let’s try a smaller trade!"],
-            approving: ["Woof! Approving your tokens, hold on, pup!","Arf! Sniffing out approval, almost there, hooman!","Bow wow! Authorizing the swap, stay pawsitive!","Ruff! Getting ready to trade, approving now!"],
-            userDenied: ["Woof woof! You scared me off, hooman! Approve next time, pup!","Arf! No swap today? You’re a tricky one, let’s try again!","Bow wow! Rejected my trade? Give me a GT next time!","Ruff ruff! You denied me, hooman! Let’s wag back later!"]
-        };
-
-        function getRandomMessage(type, param1, param2) {
-            const messages = dogMessages[type];
-            if (typeof messages === 'function') {
-                const options = messages(param1, param2);
-                return options[Math.floor(Math.random() * options.length)];
-            }
-            return messages[Math.floor(Math.random() * messages.length)];
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
             document.getElementById('toToken').addEventListener('click', () => showTokenModal('to'));
@@ -392,12 +341,10 @@
         async function connectWallet() {
             const status = document.getElementById('networkStatus');
             const connectButton = document.getElementById('connectWalletButton');
-            const dogMessage = document.getElementById('dogMessage');
             try {
                 if (!window.ethereum) throw new Error("No wallet detected. Please install MetaMask or another wallet.");
                 connectButton.disabled = true;
                 status.innerText = "Connecting...";
-                dogMessage.innerText = getRandomMessage('connectStart');
                 web3 = new Web3(window.ethereum);
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (!accounts.length) throw new Error("No accounts found. Please unlock your wallet.");
@@ -409,7 +356,6 @@
                 await updateBalances();
             } catch (error) {
                 status.innerText = "Failed: " + error.message;
-                dogMessage.innerText = getRandomMessage('connectFail');
                 console.error(error);
                 resetUI();
             } finally {
@@ -441,10 +387,8 @@
         function updateUIAfterConnect() {
             const connectButton = document.getElementById('connectWalletButton');
             const status = document.getElementById('networkStatus');
-            const dogMessage = document.getElementById('dogMessage');
             connectButton.textContent = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
             status.innerText = "Connected to GateLayer";
-            dogMessage.innerText = getRandomMessage('connectSuccess');
         }
 
         function resetUI() {
@@ -474,7 +418,6 @@
                     router = null;
                     factory = null;
                     resetUI();
-                    document.getElementById('dogMessage').innerText = getRandomMessage('connectFail');
                 }
             });
             window.ethereum.on('chainChanged', async (chainId) => {
@@ -485,7 +428,6 @@
                     factory = null;
                     resetUI();
                     document.getElementById('networkStatus').innerText = "Wrong network. Reconnect to GateLayer.";
-                    document.getElementById('dogMessage').innerText = "Woof! Wrong chain, pup! Switch to GateLayer!";
                 } else if (account) {
                     await connectWallet();
                 }
@@ -517,7 +459,6 @@
         function showTokenModal(type) {
             const modal = document.getElementById('tokenModal');
             const tokenList = document.getElementById('tokenList');
-            const dogMessage = document.getElementById('dogMessage');
             tokenList.innerHTML = '';
             tokens.forEach(token => {
                 const div = document.createElement('div');
@@ -527,12 +468,10 @@
                 tokenList.appendChild(div);
             });
             modal.style.display = 'block';
-            dogMessage.innerText = getRandomMessage('tokenModal');
             modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
         }
 
         function selectToken(token, type) {
-            const dogMessage = document.getElementById('dogMessage');
             if (type === 'to') {
                 toToken = token;
                 document.getElementById('toToken').innerHTML = `<div><img src="${token.logo}" alt="${token.symbol}"><span>${token.symbol}</span></div><span>▼</span>`;
@@ -545,32 +484,26 @@
                 }
             }
             document.getElementById('tokenModal').style.display = 'none';
-            dogMessage.innerText = getRandomMessage('selectToken', token.symbol);
             updateBalances();
             calculateOutput();
         }
 
         function switchTokens() {
-            const dogMessage = document.getElementById('dogMessage');
             if (!toToken) {
                 document.getElementById('networkStatus').innerText = "Please select a token to swap to.";
-                dogMessage.innerText = getRandomMessage('swapNoToken');
                 return;
             }
             isFromGT = !isFromGT;
             [fromToken, toToken] = [toToken, fromToken];
             document.getElementById('fromToken').innerHTML = `<div><img src="${fromToken.logo}" alt="${fromToken.symbol}"><span id="fromTokenSymbol">${fromToken.symbol}</span></div><span></span>`;
             document.getElementById('toToken').innerHTML = `<div><img src="${toToken.logo}" alt="${toToken.symbol}"><span>${toToken.symbol}</span></div><span>▼</span>`;
-            dogMessage.innerText = getRandomMessage('switchTokens');
             updateBalances();
             calculateOutput();
         }
 
         function setPercentage(percentage) {
-            const dogMessage = document.getElementById('dogMessage');
             if (!fromBalance || !web3) {
                 document.getElementById('networkStatus').innerText = "Please connect wallet first.";
-                dogMessage.innerText = getRandomMessage('connectFail');
                 return;
             }
             let amount;
@@ -583,14 +516,12 @@
                 amount = Math.max(0, amount - 0.01);
             }
             document.getElementById('fromAmount').value = amount.toString();
-            dogMessage.innerText = getRandomMessage('setPercentage', percentage);
             calculateOutput();
         }
 
         async function calculateOutput() {
             const amountIn = document.getElementById('fromAmount').value;
             const swapNote = document.getElementById('swapNote');
-            const dogMessage = document.getElementById('dogMessage');
             if (!web3 || !account || !toToken || !amountIn || amountIn <= 0) {
                 swapNote.innerHTML = 'Amount automatically calculated by Woofswap';
                 return;
@@ -600,11 +531,9 @@
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, 'ether'));
             } catch (error) {
                 swapNote.innerHTML = 'Invalid amount entered.';
-                dogMessage.innerText = getRandomMessage('swapNoAmount');
                 return;
             }
             swapNote.innerHTML = `Estimated output: <span class="spinner"></span>`;
-            dogMessage.innerText = getRandomMessage('calcStart');
             try {
                 let bestOutput = web3.utils.toBN('0');
                 for (const stable of [true, false]) {
@@ -620,16 +549,13 @@
                 }
                 if (bestOutput.eq(web3.utils.toBN('0'))) {
                     swapNote.innerHTML = 'No valid trading pair found.';
-                    dogMessage.innerText = getRandomMessage('calcFail');
                     return;
                 }
                 const outputEther = parseFloat(web3.utils.fromWei(bestOutput, 'ether'));
                 swapNote.innerHTML = `Estimated output: ${outputEther.toFixed(6)} ${toToken.symbol}`;
-                dogMessage.innerText = getRandomMessage('calcSuccess', outputEther.toFixed(2), toToken.symbol);
             } catch (error) {
                 console.error("Error calculating output:", error);
                 swapNote.innerHTML = 'Error calculating output.';
-                dogMessage.innerText = getRandomMessage('calcFail');
             }
         }
 
@@ -639,34 +565,28 @@
             const allowance = await tokenContract.methods.allowance(account, routerAddress).call();
             if (web3.utils.toBN(allowance).lt(web3.utils.toBN(amount))) {
                 const swapButton = document.getElementById('swapButton');
-                const dogMessage = document.getElementById('dogMessage');
                 isApproving = true;
                 swapButton.textContent = "Authorizing...";
                 swapButton.disabled = true;
-                dogMessage.innerText = getRandomMessage('approving');
                 await tokenContract.methods.approve(routerAddress, amount).send({ from: account });
                 document.getElementById('networkStatus').innerText = "Token approved";
                 isApproving = false;
                 swapButton.textContent = "Swap";
                 swapButton.disabled = false;
-                dogMessage.innerText = "Woof! Tokens approved, ready to swap!";
             }
         }
 
         async function swapTokens() {
-            const dogMessage = document.getElementById('dogMessage');
             const status = document.getElementById('networkStatus');
             const swapButton = document.getElementById('swapButton');
             if (isApproving) return;
             if (!web3 || !account || !toToken) {
                 status.innerText = "Please connect wallet and select tokens.";
-                dogMessage.innerText = getRandomMessage('swapNoToken');
                 return;
             }
             const amountIn = document.getElementById('fromAmount').value;
             if (!amountIn || amountIn <= 0) {
                 status.innerText = "Please enter a valid amount.";
-                dogMessage.innerText = getRandomMessage('swapNoAmount');
                 return;
             }
             let amountInWei;
@@ -674,7 +594,6 @@
                 amountInWei = web3.utils.toBN(web3.utils.toWei(amountIn, 'ether'));
             } catch (error) {
                 status.innerText = "Invalid amount entered.";
-                dogMessage.innerText = getRandomMessage('swapNoAmount');
                 console.error("Amount conversion error:", error);
                 return;
             }
@@ -683,7 +602,6 @@
                 const tokenBalance = await tokenContract.methods.balanceOf(account).call();
                 if (web3.utils.toBN(tokenBalance).lt(amountInWei)) {
                     status.innerText = "Insufficient token balance.";
-                    dogMessage.innerText = "Woof! Not enough GTs to swap, pup!";
                     return;
                 }
             }
@@ -707,7 +625,6 @@
                 }
                 if (bestOutput.eq(web3.utils.toBN('0')) || !routes) {
                     status.innerText = "No valid trading pair found.";
-                    dogMessage.innerText = getRandomMessage('calcFail');
                     return;
                 }
                 const pairAddress = await factory.methods.getPair(fromToken.address, toToken.address, bestStable).call();
@@ -721,19 +638,16 @@
                 const priceImpact = amountInWei.mul(web3.utils.toBN(100)).div(reserveFromBN.add(amountInWei));
                 if (priceImpact.gt(web3.utils.toBN(maxPriceImpact * 100))) {
                     status.innerText = `Price impact too high (${priceImpact.toString()}%).`;
-                    dogMessage.innerText = getRandomMessage('highPriceImpact');
                     return;
                 }
                 if (bestOutput.gt(reserveToBN)) {
                     status.innerText = `Insufficient liquidity in pool.`;
-                    dogMessage.innerText = getRandomMessage('insufficientLiquidity');
                     return;
                 }
                 const slippageFactor = web3.utils.toBN(1000 - defaultSlippage * 1000);
                 const amountOutMin = bestOutput.mul(slippageFactor).div(web3.utils.toBN(1000));
                 swapButton.disabled = true;
                 status.innerText = "Processing swap...";
-                dogMessage.innerText = getRandomMessage('swapStart');
                 if (!fromToken.isNative) {
                     await approveToken(fromToken.address, amountInWei);
                 }
@@ -754,7 +668,6 @@
                     ).send({ from: account });
                 }
                 status.innerText = "Swap successful!";
-                dogMessage.innerText = getRandomMessage('swapSuccess');
                 document.getElementById('fromAmount').value = '';
                 await updateBalances();
             } catch (error) {
@@ -762,15 +675,10 @@
                 let errorMessage = error.message || "Unknown error";
                 if (error.message.includes("User denied transaction signature")) {
                     errorMessage = "User denied transaction signature.";
-                    dogMessage.innerText = getRandomMessage('userDenied');
                 } else if (error.message.includes("INSUFFICIENT_OUTPUT_AMOUNT") || error.message.includes("EXCESSIVE_INPUT_AMOUNT")) {
                     errorMessage = "Swap failed: Price impact or slippage too high.";
-                    dogMessage.innerText = "Woof! Swap failed—too much price impact or slippage.";
                 } else if (error.message.includes("INSUFFICIENT_LIQUIDITY")) {
                     errorMessage = "Swap failed: Insufficient liquidity in the pool.";
-                    dogMessage.innerText = getRandomMessage('insufficientLiquidity');
-                } else {
-                    dogMessage.innerText = getRandomMessage('swapFail');
                 }
                 status.innerText = errorMessage;
             } finally {
