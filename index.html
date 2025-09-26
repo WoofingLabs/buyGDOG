@@ -577,7 +577,7 @@
                         deadline
                     ).send({ from: account, value: amountInWei });
                 } else {
-                    await router.methods.swapExactTokensForTokensSupportingFeeOnTransferTokens(
+                    await router.methods.swapExactTokensForETHSupportingFeeOnTransferTokens(
                         amountInWei.toString(),
                         amountOutMin.toString(),
                         routes,
